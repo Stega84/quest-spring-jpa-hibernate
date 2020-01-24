@@ -15,45 +15,44 @@ import java.util.Optional;
 @Controller
 public class WizardController {
 
-    @Autowired
-    private WizardRepository repository;
+	@Autowired
+	private WizardRepository repository;
 
-    @GetMapping("/wizards")
-    public String getAll(Model model) {
+	@GetMapping("/wizards")
+	public String getAll(Model model) {
 
-        model.addAttribute("wizards", repository.findAll());
+		model.addAttribute("wizards", repository.findAll());
 
-        return "wizards";
-    }
+		return "wizards";
+	}
 
-    @GetMapping("/wizard")
-    public String getWizard(Model model,
-                            @RequestParam(required = false) Long id) {
+	@GetMapping("/wizard")
+	public String getWizard(Model model, @RequestParam(required = false) Long id) {
 
-        Wizard wizard = new Wizard();
-        if (id != null) {
-            Optional<Wizard> optionalWizard = repository.findById(id);
-            if (optionalWizard.isPresent()) {
-                wizard = optionalWizard.get();
-            }
-        }
-        model.addAttribute("wizard", wizard);
+		Wizard wizard = new Wizard();
+		if (id != null) {
+			Optional<Wizard> optionalWizard = repository.findById(id);
+			if (optionalWizard.isPresent()) {
+				wizard = optionalWizard.get();
+			}
+		}
+		model.addAttribute("wizard", wizard);
 
-        return "wizard";
-    }
+		return "wizard";
+	}
 
-    @PostMapping("/wizard")
-    public String postWizard(@ModelAttribute Wizard wizard) {
+	@PostMapping("/wizard")
+	public String postWizard(@ModelAttribute Wizard wizard) {
 
-        repository.save(wizard);
-        return "redirect:/wizards";
-    }
+		repository.save(wizard);
+		return "redirect:/wizards";
+	}
 
-    @GetMapping("/wizard/delete")
-    public String deleteWizard(@RequestParam Long id) {
+	@GetMapping("/wizard/delete")
+	public String deleteWizard(@RequestParam Long id) {
 
-        repository.deleteById(id);
+		repository.deleteById(id);
 
-        return "redirect:/wizards";
-    }
+		return "redirect:/wizards";
+	}
 }
